@@ -14,9 +14,9 @@ namespace CreditService.Infrastructure.Data
 
         public DbSet<Credit> Credits { get; set; }
 
-        public Task<int> SaveChangedAsync(CancellationToken cancellationToken = default)
+        public async Task<int> SaveChangedAsync(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await base.SaveChangesAsync(cancellationToken);
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {

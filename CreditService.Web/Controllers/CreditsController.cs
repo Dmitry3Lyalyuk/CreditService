@@ -1,4 +1,5 @@
-﻿using CreditService.Application.Credits.Queries;
+﻿using CreditService.Application.Credits.Commands;
+using CreditService.Application.Credits.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +27,22 @@ namespace CreditService.Web.Controllers
             }
 
             return Ok(creadits);
+        }
+        [HttpPost]
+        public async Task<ActionResult<Guid>> CreateCredit([FromBody] CreateCreditCommand command)
+        {
+            try
+            {
+                var creditId = await _mediator.Send(command);
+
+                if (creditId == Guid.Empty) return BadRequest($"Error GUID {creditId} is empty");
+
+                return Ok(creditId);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error: {ex.Message}");
+            }
         }
     }
 }
