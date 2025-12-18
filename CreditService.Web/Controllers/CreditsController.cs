@@ -1,5 +1,6 @@
 ﻿using CreditService.Application.Credits.Commands;
 using CreditService.Application.Credits.Queries;
+using CreditService.Web.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,5 +45,18 @@ namespace CreditService.Web.Controllers
                 return StatusCode(500, $"Error: {ex.Message}");
             }
         }
+        [HttpPut("{number}")]
+        public async Task<IActionResult> CreditUpdate(string number, [FromBody] CreditUpdateRequest request)
+        {
+            var command = new UpdateCreditCommand()
+            {
+                Number = number,
+                Status = request.Status
+            };
+            await _mediator.Send(command);
+
+            return NoContent();
+        }
+
     }
 }

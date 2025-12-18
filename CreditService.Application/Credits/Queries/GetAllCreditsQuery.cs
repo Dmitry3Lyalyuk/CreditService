@@ -24,7 +24,10 @@ namespace CreditService.Application.Credits.Queries
                 Amount = c.Amount,
                 TermValue = c.TermValue,
                 InterestValue = c.InterestValue,
-                Status = c.Status
+                Status = c.Status,
+                CreatedAt = c.CreatedAt,
+                LastModifiedAt = c.LastModifiedAt
+
             }).ToListAsync(cancellationToken);
         }
     }

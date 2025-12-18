@@ -11,7 +11,6 @@ namespace CreditService.Application.Credits.Commands
         public decimal Amount { get; set; }
         public int TermValue { get; set; }
         public decimal InterestValue { get; set; }
-        public Status Status { get; set; }
     }
 
     public class CreateCreditCommandHandler : IRequestHandler<CreateCreditCommand, Guid>
@@ -29,7 +28,7 @@ namespace CreditService.Application.Credits.Commands
                 Amount = request.Amount,
                 TermValue = request.TermValue,
                 InterestValue = request.InterestValue,
-                Status = Status.Unpublished,
+                Status = Status.Published,
             };
 
             _context.Credits.Add(entity);
