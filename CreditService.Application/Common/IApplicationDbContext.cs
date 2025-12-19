@@ -7,5 +7,6 @@ namespace CreditService.Application.Common
     {
         DbSet<User> Users { get; }
         DbSet<Credit> Credits { get; }
+        Task<int> SaveChangedAsync(CancellationToken cancellationToken = default);
     }
 }
