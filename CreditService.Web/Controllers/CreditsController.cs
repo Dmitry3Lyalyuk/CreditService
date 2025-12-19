@@ -17,18 +17,19 @@ namespace CreditService.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<CreditDTO>>> GetAllCredits()
+        public async Task<ActionResult<List<CreditDTO>>> GetAllCredits([FromQuery] GetAllCreditsQuery query)
         {
-            var query = new GetAllCreditsQuery();
-            var creadits = await _mediator.Send(query);
 
-            if (creadits is null or [])
+            var credits = await _mediator.Send(query);
+
+            if (credits == null || credits.Count == 0)
             {
                 return NotFound("No credits found!");
             }
 
-            return Ok(creadits);
+            return Ok(credits);
         }
+
         [HttpPost]
         public async Task<ActionResult<Guid>> CreateCredit([FromBody] CreateCreditCommand command)
         {
