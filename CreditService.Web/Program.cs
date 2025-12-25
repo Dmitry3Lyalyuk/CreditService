@@ -11,9 +11,18 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontendCreditApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
-
+app.UseCors("AllowFrontendCreditApp");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
