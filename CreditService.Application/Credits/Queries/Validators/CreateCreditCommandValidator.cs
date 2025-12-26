@@ -31,7 +31,7 @@ namespace CreditService.Application.Credits.Queries.Validators
             RuleFor(i => i.InterestValue)
                 .NotNull()
                 .NotEmpty()
-                .GreaterThanOrEqualTo(1);
+                .GreaterThanOrEqualTo(0.1m);
         }
         private async Task<bool> BeUniqueTitle(string name, CancellationToken cancellationToken)
         {

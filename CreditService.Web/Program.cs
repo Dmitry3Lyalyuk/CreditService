@@ -11,17 +11,30 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontendCreditApp", policy =>
+    {
+        policy.WithOrigins("http://localhost", "http://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
-
+app.UseCors("AllowFrontendCreditApp");
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    await app.Services.InitialiseDbAsync();
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    c.RoutePrefix = string.Empty;
+});
+
+
+await app.Services.InitialiseDbAsync();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
